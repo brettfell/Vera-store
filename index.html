@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <title>Pretend Store</title>
   <link rel="manifest" href="manifest.json">
@@ -91,7 +91,7 @@
     .shelf {
       flex: 1.4;
       padding: 14px;
-      padding-bottom: 90px; /* Space to scroll past browser bars */
+      padding-bottom: 90px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       display: grid;
@@ -152,9 +152,11 @@
       transform: scale(0.96);
     }
 
-    /* Cart / Register Panel */
+    /* Cart / Register Panel - Fixed Heights for Smooth Scrolling */
     .cart-panel {
       flex: 1;
+      height: 100%;
+      max-height: 100%;
       background: var(--card-bg);
       border-left: 2px solid var(--border);
       display: flex;
@@ -171,11 +173,13 @@
       font-weight: 800;
     }
     .cart-items {
-      flex: 1;
+      flex: 1 1 0px;
+      height: 0;
+      min-height: 0;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
       padding: 10px;
-      min-height: 0;
     }
     .cart-row {
       display: flex;
@@ -211,7 +215,7 @@
       background: #e2e8f0;
     }
     .cart-footer {
-      flex-shrink: 0; /* Locks the total & checkout button permanently on screen */
+      flex-shrink: 0;
       padding: 12px 16px;
       border-top: 2px solid var(--border);
       background: #f8fafc;
@@ -424,13 +428,13 @@
 
   <!-- Top Banner -->
   <header>
-    <h1 id="bannerTitle">My Pretend Store2</h1>
+    <h1 id="bannerTitle">My Pretend Store</h1>
     <button class="btn-manager" onclick="openManager()">⚙️ Store Manager</button>
   </header>
 
   <!-- POS Main View -->
   <div class="pos-layout">
-    <!-- Store Shelf (5 Items) -->
+    <!-- Store Shelf (10 Items) -->
     <div class="shelf" id="shelf"></div>
 
     <!-- Cart & Register -->
@@ -460,7 +464,7 @@
           <label>Display Mode:</label>
           <select id="cfgDisplayMode">
             <option value="emoji">Emoji Mode (Instant Customization)</option>
-            <option value="photo">Photo Mode (Uses images/1.png to 5.png)</option>
+            <option value="photo">Photo Mode (Uses images/1.png to 10.png)</option>
           </select>
         </div>
       </div>
@@ -595,7 +599,6 @@
       }
       renderStore();
     }
-
 
     function renderStore() {
       document.getElementById('bannerTitle').textContent = store.storeName;
