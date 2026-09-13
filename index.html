@@ -549,7 +549,7 @@
       setTimeout(() => playBeep(1174, 0.25), 100);
     }
 
-    // --- 2. State & Default Data Model ---
+    // --- 2. State & Default Data Model (10 Items) ---
     const DEFAULTS = {
       storeName: "Sweet Treats Bakery",
       displayMode: "emoji", // "emoji" or "photo"
@@ -558,7 +558,12 @@
         { id: 2, name: "Pizza Slice", price: 3.00, emoji: "🍕" },
         { id: 3, name: "Juice Box", price: 1.50, emoji: "🧃" },
         { id: 4, name: "Popcorn", price: 2.00, emoji: "🍿" },
-        { id: 5, name: "Toy Dino", price: 5.00, emoji: "🦖" }
+        { id: 5, name: "Toy Dino", price: 5.00, emoji: "🦖" },
+        { id: 6, name: "Glazed Donut", price: 1.75, emoji: "🍩" },
+        { id: 7, name: "Ice Cream Cone", price: 2.25, emoji: "🍦" },
+        { id: 8, name: "Lollipop", price: 0.75, emoji: "🍭" },
+        { id: 9, name: "Sticker Sheet", price: 1.00, emoji: "⭐" },
+        { id: 10, name: "Teddy Bear", price: 6.50, emoji: "🧸" }
       ]
     };
 
@@ -569,12 +574,28 @@
     function initStore() {
       const saved = localStorage.getItem('pretend_store_data');
       if (saved) {
-        try { store = JSON.parse(saved); } catch (e) { store = { ...DEFAULTS }; }
+        try {
+          store = JSON.parse(saved);
+          
+          // Auto-upgrade: If tablet was saved with only 5 items, seamlessly add items 6-10
+          if (!store.items || store.items.length < 10) {
+            const currentIds = new Set((store.items || []).map(i => i.id));
+            DEFAULTS.items.forEach(defaultItem => {
+              if (!currentIds.has(defaultItem.id)) {
+                store.items.push({ ...defaultItem });
+              }
+            });
+            localStorage.setItem('pretend_store_data', JSON.stringify(store));
+          }
+        } catch (e) {
+          store = JSON.parse(JSON.stringify(DEFAULTS));
+        }
       } else {
-        store = { ...DEFAULTS };
+        store = JSON.parse(JSON.stringify(DEFAULTS));
       }
       renderStore();
     }
+
 
     function renderStore() {
       document.getElementById('bannerTitle').textContent = store.storeName;
