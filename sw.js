@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pretend-store-v5';
+const CACHE_NAME = 'pretend-store-v6';
 const ASSETS = [
   './',
   './index.html',
