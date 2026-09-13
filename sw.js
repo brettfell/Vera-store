@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pretend-store-v1';
+const CACHE_NAME = 'pretend-store-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -8,15 +8,18 @@ const ASSETS = [
   './images/3.png',
   './images/4.png',
   './images/5.png',
+  './images/6.png',
+  './images/7.png',
+  './images/8.png',
+  './images/9.png',
+  './images/10.png',
   './images/icon-192.png',
   './images/icon-512.png'
 ];
 
-// Cache core assets on install
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // Use cache.addAll with individual catch so missing images don't break installation
       return Promise.all(
         ASSETS.map((url) =>
           cache.add(url).catch((err) => console.warn(`Asset skipped during precache: ${url}`, err))
@@ -27,7 +30,6 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Clean up previous cache versions
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -41,7 +43,6 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Cache-first offline delivery
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
