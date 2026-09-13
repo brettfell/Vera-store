@@ -2,7 +2,7 @@
   "name": "Pretend Store Checkout",
   "short_name": "Store Checkout",
   "start_url": "./index.html",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#f8fafc",
   "theme_color": "#2563eb",
   "orientation": "landscape",
